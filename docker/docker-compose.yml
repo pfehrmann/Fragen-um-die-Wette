@@ -1,0 +1,48 @@
+version: '2'
+services:
+  cassandra1:
+    hostname: cassandra1
+    image: cassandra:latest
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7199:7199"
+      - "9042:9042"
+      - "9160:9160"
+  cassandra2:
+    hostname: cassandra2
+    image: cassandra:latest
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+    links:
+      - cassandra1:cassandra
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    depends_on:
+      - cassandra1
+  cassandra3:
+    hostname: cassandra3
+    image: cassandra:latest
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2
+    links:
+      - cassandra2:cassandra
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    depends_on:
+      - cassandra1
+      - cassandra2
