@@ -32,3 +32,20 @@ services:
       - "19161:9160"
     depends_on:
       - cassandra1
+  haproxy_db:
+    hostname: haproxy_db
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_db:/usr/local/etc/haproxy
+    expose:
+      - 9042
+      - 1936
+    ports:
+      - "19044:9042"
+      - "11936:1936"
+    links:
+      - cassandra1:cassandra1
+      - cassandra2:cassandra2
+    depends_on:
+      - cassandra1
+      - cassandra2

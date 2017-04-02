@@ -23,7 +23,7 @@ public class App
         } catch (Exception e) {
             e.printStackTrace();
         }
-        app.put(new Answer("Hallo"));
+        // app.put(new Answer("Hallo"));
     }
 
     private void initialize() throws Exception {
