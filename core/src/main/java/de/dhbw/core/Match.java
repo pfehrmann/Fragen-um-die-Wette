@@ -1,23 +1,39 @@
-package java.de.dhbw.core;
+package de.dhbw.core;
 
+import org.hibernate.search.annotations.Indexed;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by phili on 30.03.2017.
+ * Created by Philipp on 30.03.2017.
  */
+@Entity
+@Indexed
 public class Match {
-    private final User userA;
-    private final User userB;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private final List<Question> questions;
+    @ManyToOne
+    private User userA;
 
-    private final int currentQuestionUserA;
-    private final int currentQuestionUserB;
+    @ManyToOne
+    private User userB;
 
-    private final List<Answer> answersUserA;
-    private final List<Answer> answersUserB;
+    @OneToMany
+    private List<Question> questions;
 
-    private final boolean matchFinished;
+    private int currentQuestionUserA;
+    private int currentQuestionUserB;
+
+    @OneToMany
+    private List<Answer> answersUserA;
+
+    @OneToMany
+    private List<Answer> answersUserB;
+
+    private boolean matchFinished;
 
     public Match(User userA, User userB, List<Question> questions, int currentQuestionUserA, int currentQuestionUserB, List<Answer> answersUserA, List<Answer> answersUserB, boolean matchFinished) {
         this.userA = userA;
@@ -28,5 +44,8 @@ public class Match {
         this.answersUserA = answersUserA;
         this.answersUserB = answersUserB;
         this.matchFinished = matchFinished;
+    }
+
+    public Match() {
     }
 }

@@ -1,15 +1,35 @@
-package java.de.dhbw.core;
+package de.dhbw.core;
+
+import org.hibernate.search.annotations.Indexed;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
- * Created by phili on 30.03.2017.
+ * Created by Philipp on 30.03.2017.
  */
+@Entity
+@Indexed
 public class Question {
-    private final String questionText;
-    private final Answer[] possibleAnswers = new Answer[4];
-    private final Answer correctAnswer;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    public Question(String questionText, Answer correctAnswer) {
+    private String questionText;
+
+    @OneToMany
+    private List<Answer> possibleAnswers;
+
+    @OneToOne
+    private Answer correctAnswer;
+
+    public Question(Long id, String questionText, List<Answer> possibleAnswers, Answer correctAnswer) {
+        this.id = id;
         this.questionText = questionText;
+        this.possibleAnswers = possibleAnswers;
         this.correctAnswer = correctAnswer;
+    }
+
+    public Question() {
     }
 }
