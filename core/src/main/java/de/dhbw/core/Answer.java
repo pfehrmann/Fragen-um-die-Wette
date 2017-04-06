@@ -1,13 +1,15 @@
 package de.dhbw.core;
 
-import org.hibernate.search.annotations.Indexed;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.search.annotations.Indexed;
+
 /**
+ * This class represents an answer in the domain.
+ * 
  * Created by Philipp on 30.03.2017.
  */
 @Entity
@@ -24,5 +26,13 @@ public class Answer {
     }
 
     public Answer() {
+    }
+
+    public String getAnswerText() {
+        return text;
+    }
+
+    public long getId() {
+        return id;
     }
 }
