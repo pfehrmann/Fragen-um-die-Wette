@@ -39,7 +39,7 @@ public class App
         question.setQuestionText("Wann wurde FUDW \"erfunden\"?");
         Answer answer = new Answer();
         answer.setAnswerText("2017");
-        List<Answer> answers = new ArrayList<Answer>();
+        List<Answer> answers = new ArrayList<>();
         answers.add(answer);
         question.setPossibleAnswers(answers);
         question.setCorrectAnswer(answer);
