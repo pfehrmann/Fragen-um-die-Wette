@@ -34,4 +34,23 @@ public final class Answer implements Identifiable{
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Answer)) {
+            return false;
+        }
+        Answer answer = (Answer) obj;
+
+        // CHeck for unitialized id. Id is unitialized if not persisted.
+        if (answer.id == null || id == null) {
+            return false;
+        }
+        return answer.getId() == getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
