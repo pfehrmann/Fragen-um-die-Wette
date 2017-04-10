@@ -1,12 +1,13 @@
 package de.dhbw;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
-import de.dhbw.core.Answer;
-import de.dhbw.core.AnswerRepository;
+import de.dhbw.core.*;
 import de.dhbw.persistence.HibernateAnswerRepository;
+import de.dhbw.persistence.HibernateMatchRepository;
+import de.dhbw.persistence.HibernateQuestionRepository;
+import de.dhbw.persistence.HibernateUserRepository;
 import de.dhbw.web.RestServer;
 
 /**
@@ -15,9 +16,12 @@ import de.dhbw.web.RestServer;
  */
 public class App 
 {
-    private EntityManagerFactory factory;
-    private EntityManager manager;
     private RestServer restServer;
+
+    private QuestionRepository questionRepository;
+    private UserRepository userRepository;
+    private AnswerRepository answerRepository;
+    private MatchRepository matchRepository;
 
     public static void main( String[] args )
     {
@@ -27,23 +31,55 @@ public class App
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // app.put(new Answer("Hallo"));
+        app.seedDatabase();
+    }
+
+    private void seedDatabase() {
+        Question question = new Question();
+        question.setQuestionText("Wann wurde FUDW \"erfunden\"?");
+        Answer answer = new Answer();
+        answer.setAnswerText("2017");
+        List<Answer> answers = new ArrayList<Answer>();
+        answers.add(answer);
+        question.setPossibleAnswers(answers);
+        question.setCorrectAnswer(answer);
+        put(answer);
+        put(question);
+
+        User userA = new User("Philipp");
+        User userB = new User("Leif");
+        put(userA);
+        put(userB);
     }
 
     private void initialize() throws Exception {
-        factory = Persistence.createEntityManagerFactory("cassandra");
-        manager = factory.createEntityManager();
-
         // Create Repositories for hibernate
-        AnswerRepository answerRepository = new HibernateAnswerRepository(manager);
+        answerRepository = new HibernateAnswerRepository();
+        userRepository = new HibernateUserRepository();
+        questionRepository = new HibernateQuestionRepository();
+        matchRepository = new HibernateMatchRepository();
+
+        // Well some "Dependency Injection"... not
+        DependecyKnowItAll.answerRepository = answerRepository;
+        DependecyKnowItAll.userRepository = userRepository;
+        DependecyKnowItAll.questionRepository = questionRepository;
+        DependecyKnowItAll.matchRepository = matchRepository;
 
         // Start the rest server and supply repositories
-        restServer = new RestServer(answerRepository);
+        restServer = new RestServer(answerRepository, matchRepository, userRepository);
+    }
+
+    private void put(Question question) {
+        questionRepository.persistQuestion(question);
     }
 
     private void put(Answer answer) {
-        manager.getTransaction().begin();
-        manager.persist(answer);
-        manager.getTransaction().commit();
+        answerRepository.persist(answer);
+    }
+    private void put(User user) {
+        userRepository.persistUser(user);
+    }
+    private void put(Match match) {
+        matchRepository.persistMatch(match);
     }
 }
