@@ -24,7 +24,7 @@ public class HibernateMatchRepository implements MatchRepository {
 
     @Override
     public Match getMatchById(long id) {
-        return DependecyKnowItAll.manager.find(Match.class, id);
+        return DependecyKnowItAll.manager.find(HibernateMatch.class, id);
     }
 
     @Override
