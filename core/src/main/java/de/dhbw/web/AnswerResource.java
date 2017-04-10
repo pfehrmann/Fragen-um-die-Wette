@@ -13,7 +13,7 @@ import de.dhbw.core.AnswerRepository;
  * Endpoint for Answers
  * Created by phili on 06.04.2017.
  */
-public class AnswerResource  extends ServerResource {
+public class AnswerResource extends ServerResource {
     // TODO: Change this to use dependency injection.
     static AnswerRepository repository;
 
@@ -35,7 +35,8 @@ public class AnswerResource  extends ServerResource {
     public long createAnswer(Representation rep) {
         JacksonRepresentation<JacksonAnswer> jacksonAnswerRepresentation = new JacksonRepresentation<>(rep, JacksonAnswer.class);
         JacksonAnswer jacksonAnswer = jacksonAnswerRepresentation.getObject();
-        Answer answer = new Answer(jacksonAnswer.getText());
+        Answer answer = new Answer();
+        answer.setAnswerText(jacksonAnswer.getText());
         repository.persist(answer);
         return answer.getId();
     }

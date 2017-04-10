@@ -12,8 +12,12 @@ public class RestApplication extends Application {
     public Restlet createInboundRoot() {
         Router router = new Router(getContext());
 
+        // Answer resources
         router.attach("/answer/{id}", AnswerResource.class);
         router.attach("/answer/", AnswerResource.class);
+
+        // Matchmaking resources
+        router.attach("/match/{me}/{opponent}", MatchResource.class);
 
         return router;
     }
