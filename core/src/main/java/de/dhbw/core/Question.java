@@ -1,26 +1,18 @@
 package de.dhbw.core;
 
-import org.hibernate.search.annotations.Indexed;
-
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Philipp on 30.03.2017.
  */
-@Entity
-@Indexed
-public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class Question implements Identifiable {
     private Long id;
 
     private String questionText;
 
-    @OneToMany
     private List<Answer> possibleAnswers;
 
-    @OneToOne
     private Answer correctAnswer;
 
     public Question(Long id, String questionText, List<Answer> possibleAnswers, Answer correctAnswer) {
@@ -31,5 +23,38 @@ public class Question {
     }
 
     public Question() {
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+    public List<Answer> getPossibleAnswers() {
+        return possibleAnswers;
+    }
+
+    public void setPossibleAnswers(List<Answer> possibleAnswers) {
+        this.possibleAnswers = new ArrayList<>(possibleAnswers);
+    }
+
+    public Answer getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(Answer correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }
