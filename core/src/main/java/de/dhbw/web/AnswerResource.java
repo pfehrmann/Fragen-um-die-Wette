@@ -4,7 +4,6 @@ import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-import org.restlet.resource.ServerResource;
 
 import de.dhbw.core.Answer;
 import de.dhbw.core.AnswerRepository;
@@ -13,7 +12,7 @@ import de.dhbw.core.AnswerRepository;
  * Endpoint for Answers
  * Created by phili on 06.04.2017.
  */
-public class AnswerResource extends ServerResource {
+public class AnswerResource extends GenericResource {
     // TODO: Change this to use dependency injection.
     static AnswerRepository repository;
 
@@ -22,12 +21,7 @@ public class AnswerResource extends ServerResource {
 
     @Get
     public JacksonAnswer getAnswer() {
-
-        Object idObject = getRequest().getAttributes().get("id");
-        if(null == idObject) {
-            throw new RuntimeException("No id supplied.");
-        }
-        long id = Long.parseLong(idObject.toString());
+        long id = getIdFromParameter("id");
         return JacksonAnswer.createFromAnswer(repository.getAnswerById(id));
     }
 
