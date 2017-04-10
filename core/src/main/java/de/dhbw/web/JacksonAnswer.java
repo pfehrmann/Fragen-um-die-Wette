@@ -20,6 +20,7 @@ public class JacksonAnswer {
     }
 
     private JacksonAnswer(long id, String text) {
+        this.id = id;
         this.text = text;
     }
 
