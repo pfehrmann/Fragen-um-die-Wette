@@ -122,15 +122,21 @@ class HibernateQuestion extends Question{
         correctAnswer = getPossibleAnswers().indexOf(answer);
     }
 
+    @Override
     public Answer getCorrectAnswer() {
         return getPossibleAnswers().get(correctAnswer);
     }
 
+    @Override
     public void setCorrectAnswer(Answer answer) {
         if("".equals(possibleAnswers)) {
             throw new RuntimeException("No possible answers given. Set these first.");
         }
-        correctAnswer = getPossibleAnswers().indexOf(answer);
+        int index = getPossibleAnswers().indexOf(answer);
+        if(index < 0) {
+            throw new IllegalArgumentException("Correct Answer not in possible answers.");
+        }
+        correctAnswer = index;
     }
 
     public void setQuestionText(String questionText) {
