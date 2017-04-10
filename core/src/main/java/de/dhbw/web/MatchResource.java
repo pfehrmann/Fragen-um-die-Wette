@@ -1,13 +1,11 @@
 package de.dhbw.web;
 
+import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
 import de.dhbw.application.MatchMakingService;
-import de.dhbw.core.Match;
-import de.dhbw.core.MatchRepository;
-import de.dhbw.core.User;
-import de.dhbw.core.UserRepository;
+import de.dhbw.core.*;
 
 /**
  * Created by phili on 06.04.2017.
@@ -29,13 +27,23 @@ public class MatchResource extends ServerResource {
         return match.getId();
     }
 
-    private User getUserFromParameter(String parameterName) {
+    @Get
+    public JacksonMatch getMatch() {
+        long id = getIdFromParameter("id");
+        Match match = DependecyKnowItAll.matchRepository.getMatchById(id);
+        return JacksonMatch.createFromMatch(match);
+    }
 
+    private long getIdFromParameter(String parameterName) {
         Object idObject = getRequest().getAttributes().get(parameterName);
         if(null == idObject) {
-            throw new RuntimeException("No id supplied.");
+            throw new RuntimeException("Parameter " + parameterName + " is not supplied or null.");
         }
-        long id = Long.parseLong(idObject.toString());
+        return Long.parseLong(idObject.toString());
+    }
+
+    private User getUserFromParameter(String parameterName) {
+        long id = getIdFromParameter(parameterName);
         return userRepository.getUserById(id);
     }
 }

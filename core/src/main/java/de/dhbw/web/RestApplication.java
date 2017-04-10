@@ -18,6 +18,7 @@ public class RestApplication extends Application {
 
         // Matchmaking resources
         router.attach("/match/{me}/{opponent}", MatchResource.class);
+        router.attach("/match/{id}", MatchResource.class);
 
         return router;
     }

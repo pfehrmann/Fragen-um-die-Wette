@@ -10,21 +10,28 @@ import de.dhbw.core.Answer;
  */
 public class JacksonAnswer {
     @JsonProperty
+    private long id;
+
+    @JsonProperty
     private String text;
 
     public JacksonAnswer() {
 
     }
 
-    private JacksonAnswer(String text) {
+    private JacksonAnswer(long id, String text) {
         this.text = text;
     }
 
     static JacksonAnswer createFromAnswer(Answer answer) {
-        return new JacksonAnswer(answer.getAnswerText());
+        return new JacksonAnswer(answer.getId(), answer.getAnswerText());
     }
 
-    String getText() {
+    public String getText() {
         return text;
+    }
+
+    public long getId() {
+        return id;
     }
 }
