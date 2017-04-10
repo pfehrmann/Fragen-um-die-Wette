@@ -150,6 +150,7 @@ class HibernateMatch extends Match{
     }
 
     public HibernateMatch() {
+        this.questions = "";
     }
 
     public static HibernateMatch from(Match match) {
@@ -170,10 +171,31 @@ class HibernateMatch extends Match{
     }
 
     @Override
+    public User getUserA() {
+        return DependecyKnowItAll.userRepository.getUserById(userAId);
+    }
+
+    @Override
+    public void setUserA(User user) {
+        this.userAId = user.getId();
+    }
+
+    @Override
+    public User getUserB() {
+        return DependecyKnowItAll.userRepository.getUserById(userBId);
+    }
+
+    @Override
+    public void setUserB(User user) {
+        this.userBId = user.getId();
+    }
+
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public List<Answer> getAnswersUserA() {
         return  getAnswersFromString(this.answersUserA);
     }
@@ -184,6 +206,9 @@ class HibernateMatch extends Match{
 
     private List<Answer> getAnswersFromString(String s) {
         List<Answer> answers = new ArrayList<>();
+        if(s.isEmpty()) {
+            return answers;
+        }
         for(String answerId : s.split(";")) {
             long id = Long.parseLong(answerId);
             Answer answer = DependecyKnowItAll.answerRepository.getAnswerById(id);
@@ -201,6 +226,7 @@ class HibernateMatch extends Match{
         return sb.toString();
     }
 
+    @Override
     public List<Answer> getAnswersUserB() {
         return getAnswersFromString(this.answersUserB);
     }
@@ -226,15 +252,5 @@ class HibernateMatch extends Match{
             sb.append(";");
         }
         this.questions = sb.toString();
-    }
-
-    @Override
-    public void setUserA(User user) {
-        this.userAId = user.getId();
-    }
-
-    @Override
-    public void setUserB(User user) {
-        this.userBId = user.getId();
     }
 }
