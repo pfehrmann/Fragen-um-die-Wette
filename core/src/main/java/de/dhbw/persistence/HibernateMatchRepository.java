@@ -171,6 +171,20 @@ class HibernateMatch extends Match{
     }
 
     @Override
+    protected void answerQuestionUserA(Answer answer) {
+        List<Answer> answersUserA = getAnswersUserA();
+        answersUserA.add(answer);
+        setAnswersUserA(answersUserA);
+    }
+
+    @Override
+    protected void answerQuestionUserB(Answer answer) {
+        List<Answer> answersUserB = getAnswersUserB();
+        answersUserB.add(answer);
+        setAnswersUserA(answersUserB);
+    }
+
+    @Override
     public User getUserA() {
         return DependecyKnowItAll.userRepository.getUserById(userAId);
     }
@@ -237,6 +251,9 @@ class HibernateMatch extends Match{
 
     public List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
+        if(this.questions.isEmpty()) {
+            return questions;
+        }
         for(String questionId : this.questions.split(";")) {
             long id = Long.parseLong(questionId);
             Question question = DependecyKnowItAll.questionRepository.getQuestionById(id);

@@ -68,15 +68,23 @@ public class Match implements Identifiable {
     }
 
     public void answerQuestion(User user, Answer answer) {
-        if(userA == user) {
-            answersUserA.add(answer);
-            currentQuestionUserA++;
-        } else if (userB == user) {
-            answersUserB.add(answer);
-            currentQuestionUserB++;
+        if(getUserA() == user) {
+            answerQuestionUserA(answer);
+        } else if (getUserB() == user) {
+            answerQuestionUserB(answer);
         } else {
             throw new RuntimeException("The answering user is not associated withe this match.");
         }
+    }
+
+    protected void answerQuestionUserA(Answer answer) {
+        answersUserA.add(answer);
+        currentQuestionUserA++;
+    }
+
+    protected void answerQuestionUserB(Answer answer) {
+        answersUserB.add(answer);
+        currentQuestionUserB++;
     }
 
     public User getUserB() {
