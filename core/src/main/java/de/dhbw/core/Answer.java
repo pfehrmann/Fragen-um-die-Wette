@@ -27,7 +27,7 @@ public final class Answer implements Identifiable{
         this.text = text;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

@@ -26,7 +26,7 @@ public class Question implements Identifiable {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

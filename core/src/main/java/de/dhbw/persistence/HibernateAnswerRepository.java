@@ -90,7 +90,7 @@ class HibernateAnswer implements Identifiable {
         this.text = answerText;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

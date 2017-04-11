@@ -92,7 +92,7 @@ class HibernateUser extends User {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }

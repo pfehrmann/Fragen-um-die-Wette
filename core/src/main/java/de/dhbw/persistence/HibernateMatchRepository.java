@@ -191,7 +191,7 @@ class HibernateMatch extends Match{
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

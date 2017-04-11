@@ -144,7 +144,7 @@ class HibernateQuestion extends Question{
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }

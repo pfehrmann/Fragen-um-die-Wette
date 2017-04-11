@@ -51,7 +51,7 @@ public class Match implements Identifiable {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,6 +65,18 @@ public class Match implements Identifiable {
 
     public void setUserA(User userA) {
         this.userA = userA;
+    }
+
+    public void answerQuestion(User user, Answer answer) {
+        if(userA == user) {
+            answersUserA.add(answer);
+            currentQuestionUserA++;
+        } else if (userB == user) {
+            answersUserB.add(answer);
+            currentQuestionUserB++;
+        } else {
+            throw new RuntimeException("The answering user is not associated withe this match.");
+        }
     }
 
     public User getUserB() {
