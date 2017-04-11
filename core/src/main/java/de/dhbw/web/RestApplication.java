@@ -20,6 +20,9 @@ public class RestApplication extends Application {
         router.attach("/match/{me}/{opponent}", MatchResource.class);
         router.attach("/match/{id}", MatchResource.class);
 
+        // Answer Question resource
+        router.attach("/answerQuestion/{matchId}/answer/{answerId}", AnswerQuestionResource.class);
+
         // Question resources
         router.attach("/question/{id}", QuestionResource.class);
 
