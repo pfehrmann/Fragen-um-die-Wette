@@ -33,14 +33,28 @@ public class HibernateMatchRepository implements MatchRepository {
         DependecyKnowItAll.manager.getTransaction().begin();
         try {
             hibernateMatch = HibernateMatch.from(match);
-            DependecyKnowItAll.manager.persist(hibernateMatch);
+
+            // Check if entity is detached
+            if(isDetached(hibernateMatch)) {
+                DependecyKnowItAll.manager.merge(match);
+            } else {
+                DependecyKnowItAll.manager.persist(hibernateMatch);
+            }
             DependecyKnowItAll.manager.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
         } finally {
             if(DependecyKnowItAll.manager.getTransaction().isActive()) {
                 DependecyKnowItAll.manager.getTransaction().rollback();
             }
         }
         match.setId(hibernateMatch.getId());
+    }
+
+    private boolean isDetached(HibernateMatch match) {
+        return match.getId() != null  // must not be transient
+                && !DependecyKnowItAll.manager.contains(match)  // must not be managed now
+                && DependecyKnowItAll.manager.find(HibernateMatch.class, match.getId()) != null;  // must not have been removed
     }
 
     @Override
@@ -269,5 +283,15 @@ class HibernateMatch extends Match{
             sb.append(";");
         }
         this.questions = sb.toString();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return matchFinished;
+    }
+
+    @Override
+    public void setFinished(boolean matchFinished) {
+        this.matchFinished = matchFinished;
     }
 }
