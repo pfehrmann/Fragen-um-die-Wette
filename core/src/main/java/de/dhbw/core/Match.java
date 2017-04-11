@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Philipp on 30.03.2017.
  */
 public class Match implements Identifiable {
+    public static final int QUESTION_COUNT = 18;
     public static final String USERA_ID_COLUMN_NAME = "userAId";
     public static final String USERB_ID_COLUMN_NAME = "userBId";
 
@@ -67,7 +68,7 @@ public class Match implements Identifiable {
         this.userA = userA;
     }
 
-    public void answerQuestion(User user, Answer answer) {
+    public final void answerQuestion(User user, Answer answer) {
         if(getUserA() == user) {
             answerQuestionUserA(answer);
         } else if (getUserB() == user) {
@@ -75,6 +76,17 @@ public class Match implements Identifiable {
         } else {
             throw new RuntimeException("The answering user is not associated withe this match.");
         }
+        updateMatchFinished();
+    }
+
+    protected void updateMatchFinished() {
+        if (getCurrentQuestionUserA() >= QUESTION_COUNT || getCurrentQuestionUserA() >= getQuestions().size()) {
+            if (getCurrentQuestionUserB() >= QUESTION_COUNT || getCurrentQuestionUserB() >= getQuestions().size()) {
+                setFinished(true);
+                return;
+            }
+        }
+        setFinished(false);
     }
 
     protected void answerQuestionUserA(Answer answer) {
@@ -117,5 +129,9 @@ public class Match implements Identifiable {
 
     public boolean isFinished() {
         return matchFinished;
+    }
+
+    protected void setFinished(boolean finished) {
+        this.matchFinished = finished;
     }
 }
