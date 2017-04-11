@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import org.hibernate.search.annotations.Indexed;
 
@@ -60,8 +63,7 @@ class HibernateAnswer implements Identifiable {
 
     private String text;
 
-    @ManyToOne
-    private HibernateQuestion question;
+    private Long questionId;
 
     public HibernateAnswer(final long id, final String text) {
         this.id = id;
@@ -99,7 +101,7 @@ class HibernateAnswer implements Identifiable {
     }
 
     public void setQuestion(HibernateQuestion question) {
-        this.question = question;
+        this.questionId = question.getId();
     }
 
     public Answer getAnswer() {
