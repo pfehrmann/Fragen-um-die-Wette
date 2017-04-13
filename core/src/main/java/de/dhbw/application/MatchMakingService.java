@@ -2,8 +2,6 @@ package de.dhbw.application;
 
 import java.util.Collection;
 
-import com.sun.istack.internal.NotNull;
-
 import de.dhbw.core.DependecyKnowItAll;
 import de.dhbw.core.Match;
 import de.dhbw.core.Question;
@@ -14,7 +12,7 @@ import de.dhbw.core.User;
  */
 public class MatchMakingService {
 
-    public Match createMatch(@NotNull User userA, @NotNull User userB) {
+    public Match createMatch(User userA, User userB) {
         ensureNoRunningMatch(userA, userB);
         Collection<Question> questions = DependecyKnowItAll.questionRepository.getRandomQuestions(Match.QUESTION_COUNT);
         Match match = Match.createNewMatch(userA, userB, questions);
