@@ -1,5 +1,5 @@
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://java.sun.com/xml/ns/persistence"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
              version="1.0">
@@ -36,7 +36,8 @@
             <!-- See https://docs.jboss.org/hibernate/ogm/5.0/reference/en-US/html/ch14.html#adding_cassandra_dependencies -->
             <property name="hibernate.ogm.datastore.provider" value="cassandra_experimental"/>
             <property name="hibernate.ogm.datastore.database" value="fudw"/>
-            <property name="hibernate.ogm.datastore.host" value="192.168.99.100:19042"/>
+            <!-- <property name="hibernate.ogm.datastore.host" value="192.168.99.100:19042"/> -->
+            <property name="hibernate.ogm.datastore.host" value="haproxy_db:9042"/>
         </properties>
     </persistence-unit>
 </persistence>
