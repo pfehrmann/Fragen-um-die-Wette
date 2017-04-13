@@ -1,0 +1,9 @@
+FROM java:8 
+
+# Install maven
+RUN apt-get update
+RUN apt-get install -y maven
+
+ENTRYPOINT git clone https://github.com/pfehrmann/Fragen-um-die-Wette.git fudw && \
+	cd fudw/core && \
+	mvn clean install exec:java

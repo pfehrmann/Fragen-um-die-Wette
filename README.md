@@ -5,3 +5,5 @@ Fragen um die Wette - Wer von euch weiß mehr?
 
  * Start up docker images
    * in the ``docker``-directory run ``docker-compose up -d``
+* Start the rest Server
+   * in the ``core``-directory run ``mvn exec:java``
