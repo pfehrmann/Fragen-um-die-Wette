@@ -23,6 +23,9 @@ public class RestApplication extends Application {
         // Answer Question resource
         router.attach("/answerQuestion/{matchId}/answer/{answerId}", AnswerQuestionResource.class);
 
+        // User resource
+        router.attach("/user/{id}", UserResource.class);
+
         // Question resources
         router.attach("/question/{id}", QuestionResource.class);
 
