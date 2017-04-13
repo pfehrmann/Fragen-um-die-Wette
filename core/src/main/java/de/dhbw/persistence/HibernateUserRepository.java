@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 
 import de.dhbw.core.*;
 
@@ -30,7 +31,7 @@ public class HibernateUserRepository implements UserRepository{
 
     @Override
     public void persistUser(User user) {
-        DependecyKnowItAll. manager.getTransaction().begin();
+        DependecyKnowItAll.manager.getTransaction().begin();
         HibernateUser hibernateUser = HibernateUser.getFromUser(user);
         DependecyKnowItAll.manager.persist(hibernateUser);
         DependecyKnowItAll.manager.getTransaction().commit();
@@ -46,6 +47,7 @@ class HibernateUser extends User {
     private Long id;
 
     @Column(unique = true)
+    @Field(index=Index.YES, analyze= Analyze.NO, store= Store.YES)
     private String name;
 
     private String matches;
@@ -70,6 +72,9 @@ class HibernateUser extends User {
     @Override
     public List<Match> getMatches() {
         List<Match> matches = new ArrayList<>();
+        if(this.matches.isEmpty()) {
+            return matches;
+        }
         for(String matchId : this.matches.split(";")) {
             long id = Long.parseLong(matchId);
             Match match = DependecyKnowItAll.matchRepository.getMatchById(id);
@@ -89,6 +94,11 @@ class HibernateUser extends User {
 
     public void setMatchRepository(MatchRepository matchRepository) {
         DependecyKnowItAll.matchRepository = matchRepository;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
