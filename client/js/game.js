@@ -1,6 +1,6 @@
 var name = "";
-var webAddress = "localhost:8081";
-var restAddress = webaddress + "/rest";
+var webAddress = "http://localhost:8081";
+var restAddress = webAddress + "/rest";
 
 function submitName() {
     name = $("#playname")[0].value;
