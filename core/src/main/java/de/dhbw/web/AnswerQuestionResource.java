@@ -9,12 +9,14 @@ import de.dhbw.core.DependecyKnowItAll;
 import de.dhbw.core.Match;
 import de.dhbw.core.User;
 
+import java.io.IOException;
+
 /**
  * Created by phili on 11.04.2017.
  */
 public class AnswerQuestionResource extends GenericResource {
     @Post
-    public JacksonMatch answerQuestion(Representation entity) {
+    public JacksonMatch answerQuestion(Representation entity) throws IOException {
         long matchId = getIdFromParameter("matchId");
         long answerId = getIdFromParameter("answerId");
 

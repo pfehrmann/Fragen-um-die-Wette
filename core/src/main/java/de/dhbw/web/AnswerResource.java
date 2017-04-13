@@ -8,6 +8,8 @@ import org.restlet.resource.Post;
 import de.dhbw.core.Answer;
 import de.dhbw.core.AnswerRepository;
 
+import java.io.IOException;
+
 /**
  * Endpoint for Answers
  * Created by phili on 06.04.2017.
@@ -26,7 +28,7 @@ public class AnswerResource extends GenericResource {
     }
 
     @Post
-    public long createAnswer(Representation rep) {
+    public long createAnswer(Representation rep) throws IOException {
         JacksonRepresentation<JacksonAnswer> jacksonAnswerRepresentation = new JacksonRepresentation<>(rep, JacksonAnswer.class);
         JacksonAnswer jacksonAnswer = jacksonAnswerRepresentation.getObject();
         Answer answer = new Answer();

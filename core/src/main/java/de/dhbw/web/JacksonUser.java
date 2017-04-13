@@ -3,7 +3,7 @@ package de.dhbw.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.dhbw.core.Match;
 import de.dhbw.core.User;

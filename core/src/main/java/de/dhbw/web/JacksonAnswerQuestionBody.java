@@ -1,6 +1,6 @@
 package de.dhbw.web;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by phili on 11.04.2017.

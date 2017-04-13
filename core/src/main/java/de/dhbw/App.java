@@ -67,6 +67,8 @@ public class App
 
         // Start the rest server and supply repositories
         restServer = new RestServer(answerRepository, matchRepository, userRepository);
+
+
     }
 
     private void put(Question question) {
