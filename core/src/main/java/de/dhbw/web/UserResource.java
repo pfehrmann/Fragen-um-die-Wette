@@ -13,6 +13,9 @@ public class UserResource extends GenericResource {
     @Get
     public JacksonUser getUser() {
         User user = getUserFromParameters();
+        if(user == null) {
+            throw new RuntimeException("User was null.");
+        }
         return JacksonUser.createFromUser(user);
     }
 
