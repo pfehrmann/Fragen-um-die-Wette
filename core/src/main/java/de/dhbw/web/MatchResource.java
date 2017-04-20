@@ -15,7 +15,7 @@ public class MatchResource extends GenericResource {
     public static UserRepository userRepository;
 
     @Post
-    public long createMatch() {
+    public JacksonMatch createMatch() {
         User userA = getUserFromParameter("me");
         User userB = getUserFromParameter("opponent");
 
@@ -23,7 +23,7 @@ public class MatchResource extends GenericResource {
 
         Match match = matchMakingService.createMatch(userA, userB);
         matchRepository.persistMatch(match);
-        return match.getId();
+        return JacksonMatch.createFromMatch(match);
     }
 
     @Get
