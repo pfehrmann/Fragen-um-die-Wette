@@ -1,5 +1,3 @@
-var webAddress = "http://localhost:18082";
-var restAddress = webAddress + "/rest";
 var user;
 
 $(document).ready(function () {

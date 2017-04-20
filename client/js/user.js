@@ -1,8 +1,6 @@
 /**
  * Created by phili on 20.04.2017.
  */
-var webAddress = "http://192.168.99.100:18082";
-var restAddress = webAddress + "/rest";
 class User {
     constructor(id, matchIds, name) {
         this.id = id;
