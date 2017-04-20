@@ -4,6 +4,12 @@ FROM java:8
 RUN apt-get update
 RUN apt-get install -y maven
 
+RUN git clone https://github.com/pfehrmann/Fragen-um-die-Wette.git fudw && \
+	cd fudw/core && \
+	mvn clean install && \
+	cd ../../ && \
+	rm -rf fudw
+
 ENTRYPOINT git clone https://github.com/pfehrmann/Fragen-um-die-Wette.git fudw && \
 	cd fudw/core && \
 	mvn clean install exec:java

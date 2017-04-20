@@ -63,3 +63,31 @@ services:
       - haproxy_db:haproxy_db
     depends_on: 
       - haproxy_db
+  rest2:
+    hostname: rest2
+    build:
+      context: .
+      dockerfile: SERVER-DOCKERFILE
+    expose:
+      - 8081
+    links: 
+      - haproxy_db:haproxy_db
+    depends_on: 
+      - haproxy_db
+  haproxy_rest:
+    hostname: haproxy_rest
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_rest:/usr/local/etc/haproxy
+    expose:
+      - 8081
+      - 1936
+    ports:
+      - "18082:8081"
+      - "11937:1936"
+    links:
+      - rest1:rest1
+      - rest2:rest2
+    depends_on:
+      - rest1
+      - rest2
