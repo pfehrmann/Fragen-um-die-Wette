@@ -13,16 +13,15 @@ $(document).ready(function () {
 function login() {
 
     // Do logical login stuff
-    name = $("#input-user")[0].value;
+    let name = $("#input-user")[0].value;
     User.create(name, function (newUser) {
-        user = newUser
-    });
-    console.log(name);
+        user = newUser;
 
-    // Update page
-    $('#element-logout-user').text("Eingeloggt als " + user);
-    $('#area-login').addClass('hidden');
-    $('#area-logout').removeClass('hidden');
+        // Update page
+        $('#element-logout-user').text("Eingeloggt als " + user.name);
+        $('#area-login').addClass('hidden');
+        $('#area-logout').removeClass('hidden');
+    });
 
     return false; // To prevent page reload after submit
 }
