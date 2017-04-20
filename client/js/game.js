@@ -16,11 +16,3 @@ function createUser(userName) {
         user = new User(data.id, data.matchIds, name);
     })
 }
-
-class User {
-    constructor(id, matchIds, name) {
-        this.id = id;
-        this.matchIds = matchIds;
-        this.name = name;
-    }
-}
