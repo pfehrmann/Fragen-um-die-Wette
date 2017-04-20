@@ -44,7 +44,6 @@ public class HibernateQuestionRepository implements QuestionRepository {
         // TODO this only returns the first count questions.
         String nativeQuery = "SELECT * " +
                 "FROM \"HibernateQuestion\" " +
-                "WHERE \"id\" > 0 " +
                 "ALLOW FILTERING";
         List resultList = DependecyKnowItAll.manager.createNativeQuery(nativeQuery, HibernateQuestion.class)
                 .setMaxResults(count).getResultList();
