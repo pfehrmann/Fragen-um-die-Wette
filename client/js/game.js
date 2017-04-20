@@ -1,12 +1,27 @@
 var name = "";
-var webAddress = "http://192.168.99.100:18082";
+var webAddress = "http://localhost:18082";
 var restAddress = webAddress + "/rest";
 var user;
 
-function submitName() {
-    name = $("#playname")[0].value;
+$(document).ready(function () {
+
+    // Bind actions
+    $("#form-login").submit(login);
+
+});
+
+function login() {
+
+    // Do logical login stuff
+    name = $("#input-user")[0].value;
     createUser(name);
     console.log(name);
+
+    // Update page
+    $('#area-login').hide();
+    $('#area-logout').show();
+
+    return false; // To prevent page reload after submit
 }
 
 function createUser(userName) {

@@ -14,38 +14,54 @@
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="../js/game.js"></script>
-    <script src="../js/user.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-
+    <script src="../js/game.js"></script>
+    <script src="../js/user.js"></script>
 </head>
 
 <body>
 
 <div class="container">
+
     <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
-                <li role="presentation" class="active"><a href="#">Home</a></li>
-                <li role="presentation"><a href="#">About</a></li>
-                <li role="presentation"><a href="#">Contact</a></li>
+                <li role="presentation"><a href="index.html">Home</a></li>
+                <li role="presentation" class="active"><a href="play.html">Play</a></li>
             </ul>
         </nav>
-        <h3 class="text-muted">Project name</h3>
+        <h1 class="text-muted">Fragen um die Wette</h1>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            Name: <input type="text" id="playname">
-            <button onclick="submitName()">Spielen</button>
-        </div>
 
-        <footer class="footer">
-            <p>&copy; 2016 Company, Inc.</p>
-        </footer>
+    <div id="area-login" class="jumbotron">
+        <h2>Login</h2>
+        <form id="form-login">
+            <label for="input-user">Name: </label><input type="text" id="input-user">
+            <button type="submit">Spielen</button>
+        </form>
+    </div>
 
-    </div> <!-- /container -->
-</div>
+    <div id="area-matches" class="jumbotron hidden">
+        <h2>Spiele</h2>
+        <ul>
+            <li>Match 1</li>
+            <li>Match 2</li>
+        </ul>
+    </div>
+
+    <div id="area-current-game" class="jumbotron hidden">
+        <h2>Aktuelles Spiel</h2>
+    </div>
+
+    <div id="area-logout" class="jumbotron hidden">
+        <h2>Logout</h2>
+        <button>Ausloggen</button>
+    </div>
+
+
+
+</div> <!-- /container -->
 </body>
 </html>
