@@ -7,6 +7,7 @@ $(document).ready(function () {
 
     // Bind actions
     $("#form-login").submit(login);
+    $('#button-logout').click(logout);
 
 });
 
@@ -18,10 +19,20 @@ function login() {
     console.log(name);
 
     // Update page
-    $('#area-login').hide();
-    $('#area-logout').show();
+    $('#element-logout-user').text("Eingeloggt als " + user);
+    $('#area-login').addClass('hidden');
+    $('#area-logout').removeClass('hidden');
 
     return false; // To prevent page reload after submit
+}
+
+function logout() {
+
+    user = undefined;
+
+    $('#area-logout').addClass('hidden');
+    $('#area-login').removeClass('hidden');
+
 }
 
 function createUser(userName) {
