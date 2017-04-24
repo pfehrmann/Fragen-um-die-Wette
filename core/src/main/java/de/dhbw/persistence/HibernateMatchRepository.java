@@ -77,7 +77,10 @@ public class HibernateMatchRepository implements MatchRepository {
 
     @Override
     public boolean existsMatch(User userA, User userB) {
-
+        return getMatch(userA, userB) != null;
+    }
+    @Override
+    public Match getMatch(User userA, User userB) {
         // Using named parameters would be more awesome, but is not supported yet.
         // See https://hibernate.atlassian.net/browse/OGM-1008
         String query = "select * " +
@@ -104,7 +107,7 @@ public class HibernateMatchRepository implements MatchRepository {
             // This will result in a NoResultException if not Result is found, thus the try catch
             Object queryResultObject = nativeQuery.getSingleResult();
             if (queryResultObject != null) {
-                return true;
+                return (HibernateMatch) queryResultObject;
             }
         } catch(NoResultException ex) {
             // No action is needed here.
@@ -118,12 +121,12 @@ public class HibernateMatchRepository implements MatchRepository {
                     .setMaxResults(1)
                     .getSingleResult();
             if (queryResultObject != null) {
-                return true;
+                return (HibernateMatch) queryResultObject;
             }
         } catch(NoResultException ex) {
             // No action is needed here.
         }
-        return false;
+        return null;
     }
 }
 

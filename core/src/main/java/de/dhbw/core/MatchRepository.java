@@ -11,4 +11,5 @@ public interface MatchRepository {
     Collection<Match> getMatchesByUser(User user);
 
     boolean existsMatch(User userA, User userB);
+    Match getMatch(User userA, User userB);
 }

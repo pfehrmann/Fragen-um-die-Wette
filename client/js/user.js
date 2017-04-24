@@ -22,9 +22,24 @@ class User {
                 $.post(url, function (data) {
                     let user = new User(data.id, data.matchIds, name);
                     callback(user);
+                    console.log(user);
                 })
             }
         });
+    }
 
+    get matches() {
+        let matches = [];
+        let c = 0;
+        for (let index = 0; index < this.matchIds; ++index) {
+            Match.createFromId(this.matchIds[index], function (match) {
+                matches.push(match);
+                c++;
+            });
+        }
+        while (c != this.matchIds.length) {
+
+        }
+        return matches;
     }
 }
