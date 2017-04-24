@@ -37,10 +37,25 @@ public class App
     private void seedDatabase() {
         Question question = new Question();
         question.setQuestionText("Wann wurde FUDW \"erfunden\"?");
+
+        List<Answer> answers = new ArrayList<>();
+
         Answer answer = new Answer();
         answer.setAnswerText("2017");
-        List<Answer> answers = new ArrayList<>();
         answers.add(answer);
+
+        answer = new Answer();
+        answer.setAnswerText("2016");
+        answers.add(answer);
+
+        answer = new Answer();
+        answer.setAnswerText("2015");
+        answers.add(answer);
+
+        answer = new Answer();
+        answer.setAnswerText("2018");
+        answers.add(answer);
+
         question.setPossibleAnswers(answers);
         question.setCorrectAnswer(answer);
         put(answer);
