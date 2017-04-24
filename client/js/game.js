@@ -8,6 +8,10 @@ $(document).ready(function () {
 
 });
 
+function startNewGame() {
+
+}
+
 function login() {
 
     // Do logical login stuff
@@ -19,6 +23,8 @@ function login() {
         $('#element-logout-user').text("Eingeloggt als " + user.name);
         $('#area-login').addClass('hidden');
         $('#area-logout').removeClass('hidden');
+        $('#area-matches').removeClass('hidden');
+        newUser.showMatches();
     });
 
     return false; // To prevent page reload after submit

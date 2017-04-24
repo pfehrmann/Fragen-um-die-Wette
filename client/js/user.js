@@ -8,6 +8,10 @@ class User {
         this.name = name;
     }
 
+    static createFromJson(data) {
+        return new User(data.id, data.matchIds, data.name);
+    }
+
     static create(name, callback) {
         let url = restAddress + "/user/" + name;
 
@@ -15,20 +19,17 @@ class User {
             dataType: "json",
             url: url,
             success: function (data) {
-                let user = new User(data.id, data.matchIds, name);
-                callback(user);
+                callback(User.createFromJson(data));
             },
             error: function () {
                 $.post(url, function (data) {
-                    let user = new User(data.id, data.matchIds, name);
-                    callback(user);
-                    console.log(user);
+                    callback(User.createFromJson(data));
                 })
             }
         });
     }
 
-    get matches() {
+    getMatches(callback) {
         let matches = [];
         let c = 0;
         for (let index = 0; index < this.matchIds; ++index) {
@@ -38,8 +39,19 @@ class User {
             });
         }
         while (c != this.matchIds.length) {
-
+            console.log(c);
         }
         return matches;
     }
+
+    showMatches() {
+        $("#area-matches").empty();
+        $("#area-matches").append("<h2>Spiele</h2>");
+        for (let index = 0; index < this.matchIds.length; index++) {
+            Match.createFromId(this.matchIds[index], function (match) {
+                $("#area-matches").append(match.toHTML());
+            });
+        }
+    }
 }
+

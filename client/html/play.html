@@ -17,8 +17,11 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="../js/config.js"></script>
-    <script src="../js/game.js"></script>
+    <script src="../js/answer.js"></script>
+    <script src="../js/question.js"></script>
+    <script src="../js/match.js"></script>
     <script src="../js/user.js"></script>
+    <script src="../js/game.js"></script>
 </head>
 
 <body>
@@ -50,8 +53,36 @@
         </ul>
     </div>
 
+    <div id="area-new-match" class="jumbotron hidden">
+        <h2>Neues Spiel gegen</h2>
+        <form submit-answer>
+            <label for="input-user">Gegnername: </label><input type="text" id="opponent-name">
+            <button type="submit">Starte Spiel</button>
+        </form>
+    </div>
+
     <div id="area-current-game" class="jumbotron hidden">
         <h2>Aktuelles Spiel</h2>
+    </div>
+
+    <div id="match" class="jumbotron hidden">
+        Gegner: <span enemy></span><br>
+        Frage: <span question></span><br>
+        <form submit-answer>
+            <div class="radio">
+                <label><input type="radio" name="optradio" answer1><span answer1text></span></label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" answer2><span answer2text></span></label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" answer3><span answer3text></span></label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" answer4><span answer4text></span></label>
+            </div>
+            <button type="submit">Abschicken</button>
+        </form>
     </div>
 
     <div id="area-logout" class="jumbotron hidden">
