@@ -140,6 +140,11 @@ class HibernateQuestion extends Question{
         correctAnswer = index;
     }
 
+    @Override
+    public String getQuestionText() {
+        return questionText;
+    }
+
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }

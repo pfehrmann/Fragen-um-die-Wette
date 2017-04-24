@@ -37,7 +37,7 @@ public class JacksonQuestion {
             jacksonQuestion.possibleAnswers.add(JacksonAnswer.createFromAnswer(answer));
         }
         jacksonQuestion.correctAnswer = JacksonAnswer.createFromAnswer(question.getCorrectAnswer());
-
+        jacksonQuestion.questionText = question.getQuestionText();
         return jacksonQuestion;
     }
 }
