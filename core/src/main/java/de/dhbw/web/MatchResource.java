@@ -20,9 +20,13 @@ public class MatchResource extends GenericResource {
         User userB = getUserFromParameter("opponent");
 
         MatchMakingService matchMakingService = new MatchMakingService();
-
-        Match match = matchMakingService.createMatch(userA, userB);
-        matchRepository.persistMatch(match);
+        Match match;
+        try {
+            match = matchMakingService.createMatch(userA, userB);
+            matchRepository.persistMatch(match);
+        } catch (Exception e) {
+            match = DependecyKnowItAll.matchRepository.getMatch(userA, userB);
+        }
         return JacksonMatch.createFromMatch(match);
     }
 
