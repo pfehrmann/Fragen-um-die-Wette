@@ -1,6 +1,7 @@
 package de.dhbw.persistence;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.*;
@@ -81,25 +82,13 @@ class HibernateUser extends User {
 
     @Override
     public List<Match> getMatches() {
-        List<Match> matches = new ArrayList<>();
-        if(this.matches.isEmpty()) {
-            return matches;
-        }
-        for(String matchId : this.matches.split(";")) {
-            long id = Long.parseLong(matchId);
-            Match match = DependecyKnowItAll.matchRepository.getMatchById(id);
-            matches.add(match);
-        }
-        return matches;
+        Collection<Match> matches = DependecyKnowItAll.matchRepository.getMatchesByUser(this);
+        return new ArrayList<>(matches);
     }
 
-    public void setMatches(Iterable<Match> matches) {
-        StringBuilder sb = new StringBuilder();
-        for(Match match : matches) {
-            sb.append(match.getId());
-            sb.append(";");
-        }
-        this.matches = sb.toString();
+    @Override
+    public void setMatches(Collection<Match> matches) {
+        this.matches = "";
     }
 
     public void setMatchRepository(MatchRepository matchRepository) {

@@ -2,6 +2,7 @@ package de.dhbw.persistence;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -45,8 +46,9 @@ public class HibernateQuestionRepository implements QuestionRepository {
         String nativeQuery = "SELECT * " +
                 "FROM \"HibernateQuestion\" " +
                 "ALLOW FILTERING";
-        List resultList = DependecyKnowItAll.manager.createNativeQuery(nativeQuery, HibernateQuestion.class)
-                .setMaxResults(count).getResultList();
+        List resultList = DependecyKnowItAll.manager.createNativeQuery(nativeQuery, HibernateQuestion.class).getResultList();
+        Collections.shuffle(resultList);
+        resultList.subList(0, Math.min(count-1, resultList.size()));
         List<Question> questions = new ArrayList<>();
         for (Object result : resultList) {
             questions.add((HibernateQuestion)result);

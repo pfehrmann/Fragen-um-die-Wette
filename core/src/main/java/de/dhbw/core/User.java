@@ -1,6 +1,7 @@
 package de.dhbw.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -45,6 +46,10 @@ public class User implements Identifiable {
 
     public List<Match> getMatches() {
         return new ArrayList<>(this.matches);
+    }
+
+    public void setMatches(Collection<Match> matches) {
+        this.matches = new ArrayList<>(matches);
     }
 
     public String getName() {

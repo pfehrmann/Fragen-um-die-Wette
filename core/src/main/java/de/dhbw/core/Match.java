@@ -60,6 +60,28 @@ public class Match implements Identifiable {
         this.id = id;
     }
 
+    public User whoWon() {
+        if(!isFinished()) {
+            return null;
+        }
+        int correctAnswersA = 0;
+        int correctAnswersB = 0;
+        for(int i = 0; i < getQuestions().size(); i++) {
+            if(this.getQuestions().get(i).getCorrectAnswer().getId() == this.getAnswersUserA().get(i).getId()) {
+                correctAnswersA++;
+            }
+            if(this.getQuestions().get(i).getCorrectAnswer().getId() == this.getAnswersUserB().get(i).getId()) {
+                correctAnswersB++;
+            }
+        }
+        if(correctAnswersA > correctAnswersB) {
+            return getUserA();
+        } else if (correctAnswersA < correctAnswersB) {
+            return getUserB();
+        }
+        return null;
+    }
+
     public User getUserA() {
         return userA;
     }
@@ -69,6 +91,9 @@ public class Match implements Identifiable {
     }
 
     public final void answerQuestion(User user, Answer answer) {
+        if(isFinished()) {
+            return;
+        }
         if(getUserA() == user) {
             answerQuestionUserA(answer);
         } else if (getUserB() == user) {

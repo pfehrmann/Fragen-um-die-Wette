@@ -5,10 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.search.annotations.Indexed;
 
@@ -59,20 +55,33 @@ public class HibernateMatchRepository implements MatchRepository {
 
     @Override
     public Collection<Match> getMatchesByUser(User user) {
-        CriteriaBuilder cb = DependecyKnowItAll.manager.getCriteriaBuilder();
+        String query = "select * " +
+                "from \"HibernateMatch\" " +
+                "where \"" + Match.USERA_ID_COLUMN_NAME + "\" = ? " +
+                "ALLOW FILTERING";
 
-        ParameterExpression<Long> userId = cb.parameter(Long.class, "user");
 
-        CriteriaQuery<Match> query = cb.createQuery(Match.class);
-        Root<Match> c = query.from(Match.class);
-        query.select(c);
-        query.where(cb.or(
-                        cb.equal(c.get("userA"), userId),
-                        cb.equal(c.get("userB"), userId)
-                )
-        );
-        return DependecyKnowItAll.manager.createQuery(query).setParameter(userId.getName(), user.getId()).getResultList();
+        String query2 = "select * " +
+                "from \"HibernateMatch\" " +
+                "where \"" + Match.USERB_ID_COLUMN_NAME + "\" = ? " +
+                "ALLOW FILTERING";
 
+        Query nativeQuery = DependecyKnowItAll.manager.createNativeQuery(query, HibernateMatch.class);
+        nativeQuery = nativeQuery.setParameter(1, user.getId());
+
+        List<Match> matches = new ArrayList<>();
+        for(Object result : nativeQuery.getResultList()) {
+            matches.add((HibernateMatch) result);
+        }
+
+        nativeQuery = DependecyKnowItAll.manager.createNativeQuery(query2, HibernateMatch.class);
+        nativeQuery = nativeQuery.setParameter(1, user.getId());
+
+        for(Object result : nativeQuery.getResultList()) {
+            matches.add((HibernateMatch) result);
+        }
+
+        return matches;
     }
 
     @Override
@@ -178,6 +187,7 @@ class HibernateMatch extends Match{
             hibernateMatch = new HibernateMatch();
             hibernateMatch.setUserA(match.getUserA());
             hibernateMatch.setUserB(match.getUserB());
+            hibernateMatch.setQuestions(match.getQuestions());
             hibernateMatch.currentQuestionUserA = match.getCurrentQuestionUserA();
             hibernateMatch.currentQuestionUserB = match.getCurrentQuestionUserB();
             hibernateMatch.setAnswersUserA(match.getAnswersUserA());
@@ -192,13 +202,15 @@ class HibernateMatch extends Match{
         List<Answer> answersUserA = getAnswersUserA();
         answersUserA.add(answer);
         setAnswersUserA(answersUserA);
+        currentQuestionUserA++;
     }
 
     @Override
     protected void answerQuestionUserB(Answer answer) {
         List<Answer> answersUserB = getAnswersUserB();
         answersUserB.add(answer);
-        setAnswersUserA(answersUserB);
+        setAnswersUserB(answersUserB);
+        currentQuestionUserB++;
     }
 
     @Override
@@ -296,5 +308,23 @@ class HibernateMatch extends Match{
     @Override
     public void setFinished(boolean matchFinished) {
         this.matchFinished = matchFinished;
+    }
+
+    @Override
+    public int getCurrentQuestionUserA() {
+        return currentQuestionUserA;
+    }
+
+    public void setCurrentQuestionUserA(int currentQuestionUserA) {
+        this.currentQuestionUserA = currentQuestionUserA;
+    }
+
+    @Override
+    public int getCurrentQuestionUserB() {
+        return currentQuestionUserB;
+    }
+
+    public void setCurrentQuestionUserB(int currentQuestionUserB) {
+        this.currentQuestionUserB = currentQuestionUserB;
     }
 }

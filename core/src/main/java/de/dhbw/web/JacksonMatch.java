@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 import de.dhbw.core.Answer;
 import de.dhbw.core.Match;
 import de.dhbw.core.Question;
+import de.dhbw.core.User;
 
 /**
  * Created by phili on 10.04.2017.
@@ -40,6 +40,9 @@ public class JacksonMatch {
 
     @JsonProperty
     private boolean matchFinished;
+
+    @JsonProperty
+    private JacksonUser whoWon;
 
     public JacksonMatch() {
 
@@ -73,6 +76,13 @@ public class JacksonMatch {
         }
 
         jacksonMatch.matchFinished = match.isFinished();
+
+        User won = match.whoWon();
+        if(won != null) {
+            jacksonMatch.whoWon = JacksonUser.createFromUser(match.whoWon());
+        } else {
+            jacksonMatch.whoWon = null;
+        }
 
         return jacksonMatch;
     }
