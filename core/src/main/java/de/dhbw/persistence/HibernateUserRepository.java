@@ -25,8 +25,18 @@ public class HibernateUserRepository implements UserRepository{
 
     @Override
     public User getUserByName(String name) {
-        return DependecyKnowItAll.manager.createQuery("SELECT u FROM HibernateUser u WHERE u.name = :name", HibernateUser.class)
-                .setParameter("name", name).setMaxResults(1).getSingleResult();
+        String sqlQuery = "select * from \"HibernateUser\" WHERE \"name\" = ? ALLOW FILTERING";
+        Query nativeQuery = DependecyKnowItAll.manager.createNativeQuery(sqlQuery, HibernateUser.class);
+        nativeQuery = nativeQuery.setParameter(1, name);
+        nativeQuery = nativeQuery.setMaxResults(1);
+        try {
+            // This will result in a NoResultException if not Result is found, thus the try catch
+            return (HibernateUser) nativeQuery.getSingleResult();
+        } catch(NoResultException ex) {
+            // No action is needed here.
+            // TODO use some proper exception handling
+        }
+        throw new RuntimeException("User " + name + " not found.");
     }
 
     @Override
