@@ -1,0 +1,137 @@
+version: '3'
+
+services:
+  cassandra1:
+    hostname: cassandra1
+    image: nebo15/alpine-cassandra:latest
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - "17199:7199"
+      - "19042:9042"
+      - "19160:9160"
+  cassandra2:
+    hostname: cassandra2
+    image: nebo15/alpine-cassandra:latest
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+    links:
+      - cassandra1:cassandra
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - "17200:7199"
+      - "19043:9042"
+      - "19161:9160"
+    depends_on:
+      - cassandra1
+  haproxy_db:
+    hostname: haproxy_db
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_db:/usr/local/etc/haproxy
+    expose:
+      - 9042
+      - 1936
+    ports:
+      - "19044:9042"
+      - "11936:1936"
+    links:
+      - cassandra1:cassandra1
+      - cassandra2:cassandra2
+    depends_on:
+      - cassandra1
+      - cassandra2
+  rest1:
+    hostname: rest1
+    build:
+      context: .
+      dockerfile: SERVER-DOCKERFILE-SMALL
+    expose:
+      - 8081
+    ports:
+      - "18081:8081"
+    links:
+      - haproxy_db:haproxy_db
+    depends_on:
+      - haproxy_db
+  rest2:
+    hostname: rest2
+    build:
+      context: .
+      dockerfile: SERVER-DOCKERFILE-SMALL
+    expose:
+      - 8081
+    links:
+      - haproxy_db:haproxy_db
+    depends_on:
+      - haproxy_db
+      - rest1
+  haproxy_rest:
+    hostname: haproxy_rest
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_rest:/usr/local/etc/haproxy
+    expose:
+      - 8081
+      - 1936
+    ports:
+      - "18082:8081"
+      - "11937:1936"
+    links:
+      - rest1:rest1
+      - rest2:rest2
+    depends_on:
+      - rest1
+      - rest2
+  apache1:
+    hostname: apache1
+    build:
+      context: ..
+      dockerfile: docker/APACHE-DOCKERFILE-SMALL
+    expose:
+      - 80
+    ports:
+      - "1080:80"
+    links:
+      - haproxy_rest:haproxy_rest
+    depends_on:
+      - haproxy_rest
+  apache2:
+    hostname: apache2
+    build:
+      context: ..
+      dockerfile: docker/APACHE-DOCKERFILE-SMALL
+    expose:
+      - 80
+    ports:
+      - "1081:80"
+    links:
+      - haproxy_rest:haproxy_rest
+    depends_on:
+      - haproxy_rest
+  haproxy_apache:
+    hostname: haproxy_apache
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_apache:/usr/local/etc/haproxy
+    expose:
+      - 80
+      - 1936
+    ports:
+      - "1083:80"
+      - "11938:1936"
+    links:
+      - apache1:apache1
+      - apache2:apache2
+    depends_on:
+      - apache1
+      - apache2
