@@ -20,7 +20,9 @@ public class HibernateMatchRepository implements MatchRepository {
 
     @Override
     public Match getMatchById(long id) {
-        return DependecyKnowItAll.manager.find(HibernateMatch.class, id);
+        HibernateMatch match = DependecyKnowItAll.manager.find(HibernateMatch.class, id);
+        DependecyKnowItAll.manager.refresh(match);
+        return match;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class HibernateMatchRepository implements MatchRepository {
         Query nativeQuery = DependecyKnowItAll.manager.createNativeQuery(query, HibernateMatch.class);
         nativeQuery = nativeQuery.setParameter(1, user.getId());
 
-        List<Match> matches = new ArrayList<>();
+        List<HibernateMatch> matches = new ArrayList<>();
         for(Object result : nativeQuery.getResultList()) {
             matches.add((HibernateMatch) result);
         }
@@ -81,7 +83,13 @@ public class HibernateMatchRepository implements MatchRepository {
             matches.add((HibernateMatch) result);
         }
 
-        return matches;
+        List<Match> result = new ArrayList<>();
+        for(HibernateMatch match : matches) {
+            DependecyKnowItAll.manager.refresh(match);
+            result.add(match);
+        }
+
+        return result;
     }
 
     @Override
@@ -116,7 +124,9 @@ public class HibernateMatchRepository implements MatchRepository {
             // This will result in a NoResultException if not Result is found, thus the try catch
             Object queryResultObject = nativeQuery.getSingleResult();
             if (queryResultObject != null) {
-                return (HibernateMatch) queryResultObject;
+                HibernateMatch match = (HibernateMatch) queryResultObject;
+                DependecyKnowItAll.manager.refresh(match);
+                return match;
             }
         } catch(NoResultException ex) {
             // No action is needed here.
@@ -130,7 +140,9 @@ public class HibernateMatchRepository implements MatchRepository {
                     .setMaxResults(1)
                     .getSingleResult();
             if (queryResultObject != null) {
-                return (HibernateMatch) queryResultObject;
+                HibernateMatch match = (HibernateMatch) queryResultObject;
+                DependecyKnowItAll.manager.refresh(match);
+                return match;
             }
         } catch(NoResultException ex) {
             // No action is needed here.

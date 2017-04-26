@@ -21,7 +21,9 @@ public class HibernateUserRepository implements UserRepository{
 
     @Override
     public User getUserById(long id) {
-        return DependecyKnowItAll.manager.find(HibernateUser.class, id);
+        HibernateUser user = DependecyKnowItAll.manager.find(HibernateUser.class, id);
+        DependecyKnowItAll.manager.refresh(user);
+        return user;
     }
 
     @Override
@@ -32,7 +34,9 @@ public class HibernateUserRepository implements UserRepository{
         nativeQuery = nativeQuery.setMaxResults(1);
         try {
             // This will result in a NoResultException if not Result is found, thus the try catch
-            return (HibernateUser) nativeQuery.getSingleResult();
+            HibernateUser user = (HibernateUser) nativeQuery.getSingleResult();
+            DependecyKnowItAll.manager.refresh(user);
+            return user;
         } catch(NoResultException ex) {
             // No action is needed here.
             // TODO use some proper exception handling

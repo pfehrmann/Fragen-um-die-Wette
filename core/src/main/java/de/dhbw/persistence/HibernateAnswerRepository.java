@@ -22,7 +22,9 @@ public class HibernateAnswerRepository implements AnswerRepository {
     }
 
     public Answer getAnswerById(long id) {
-        return DependecyKnowItAll.manager.find(HibernateAnswer.class, id).getAnswer();
+        HibernateAnswer answer = DependecyKnowItAll.manager.find(HibernateAnswer.class, id);
+        DependecyKnowItAll.manager.refresh(answer);
+        return answer.getAnswer();
     }
 
     public Collection<Answer> getAnswersById(long... ids) {
