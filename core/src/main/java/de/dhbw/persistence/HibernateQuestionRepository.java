@@ -45,7 +45,7 @@ public class HibernateQuestionRepository implements QuestionRepository {
                 "ALLOW FILTERING";
         List resultList = DependecyKnowItAll.manager.createNativeQuery(nativeQuery, HibernateQuestion.class).getResultList();
         Collections.shuffle(resultList);
-        resultList.subList(0, Math.min(count-1, resultList.size()));
+        resultList = resultList.subList(0, Math.min(count-1, resultList.size()));
         List<Question> questions = new ArrayList<>();
         for (Object result : resultList) {
             questions.add((HibernateQuestion)result);
