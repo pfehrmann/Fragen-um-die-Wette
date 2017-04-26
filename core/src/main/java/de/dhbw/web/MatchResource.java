@@ -38,7 +38,16 @@ public class MatchResource extends GenericResource {
     }
 
     private User getUserFromParameter(String parameterName) {
-        long id = getIdFromParameter(parameterName);
-        return userRepository.getUserById(id);
+        Object idObject = getRequest().getAttributes().get(parameterName);
+        if(null == idObject) {
+            throw new RuntimeException("Parameter id or name is not supplied or null.");
+        }
+        try {
+            long id = Long.parseLong(idObject.toString());
+            return DependecyKnowItAll.userRepository.getUserById(id);
+        } catch (Exception e) {
+            System.out.println("No user found by id");
+        }
+        return DependecyKnowItAll.userRepository.getUserByName((String) idObject);
     }
 }
