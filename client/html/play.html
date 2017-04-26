@@ -55,8 +55,8 @@
 
     <div id="area-new-match" class="jumbotron hidden">
         <h2>Neues Spiel gegen</h2>
-        <form submit-answer>
-            <label for="input-user">Gegnername: </label><input type="text" id="opponent-name">
+        <form id="new-match-form">
+            <label for="opponent-name">Gegnername: </label><input type="text" id="opponent-name">
             <button type="submit">Starte Spiel</button>
         </form>
     </div>
@@ -83,6 +83,11 @@
             </div>
             <button type="submit">Abschicken</button>
         </form>
+    </div>
+
+    <div id="match-over" class="jumbotron hidden">
+        Gegner: <span enemy></span><br>
+        Gewinner: <span winner></span>
     </div>
 
     <div id="area-logout" class="jumbotron hidden">
