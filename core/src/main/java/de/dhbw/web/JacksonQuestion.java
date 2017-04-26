@@ -1,6 +1,7 @@
 package de.dhbw.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,6 +37,7 @@ public class JacksonQuestion {
         for(Answer answer : question.getPossibleAnswers()) {
             jacksonQuestion.possibleAnswers.add(JacksonAnswer.createFromAnswer(answer));
         }
+        Collections.shuffle(jacksonQuestion.possibleAnswers);
         jacksonQuestion.correctAnswer = JacksonAnswer.createFromAnswer(question.getCorrectAnswer());
         jacksonQuestion.questionText = question.getQuestionText();
         return jacksonQuestion;
