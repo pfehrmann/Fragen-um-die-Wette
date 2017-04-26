@@ -67,10 +67,14 @@ public class Match implements Identifiable {
         int correctAnswersA = 0;
         int correctAnswersB = 0;
         for(int i = 0; i < getQuestions().size(); i++) {
-            if(this.getQuestions().get(i).getCorrectAnswer().getId() == this.getAnswersUserA().get(i).getId()) {
+            Answer correctAnswer = this.getQuestions().get(i).getCorrectAnswer();
+            long answerUserA = this.getAnswersUserA().get(i).getId();
+            long answerUserB = this.getAnswersUserB().get(i).getId();
+
+            if(correctAnswer.getId() == answerUserA) {
                 correctAnswersA++;
             }
-            if(this.getQuestions().get(i).getCorrectAnswer().getId() == this.getAnswersUserB().get(i).getId()) {
+            if(correctAnswer.getId() == answerUserB) {
                 correctAnswersB++;
             }
         }
