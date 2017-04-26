@@ -2,6 +2,7 @@ package de.dhbw;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import de.dhbw.core.*;
 import de.dhbw.persistence.HibernateAnswerRepository;
@@ -31,7 +32,49 @@ public class App
         } catch (Exception e) {
             e.printStackTrace();
         }
-        app.seedDatabase();
+        app.inputLoop();
+    }
+
+    private void inputLoop() {
+        Scanner scan = new Scanner(System.in);
+
+        while(true) {
+            System.out.println("Befehl eingeben");
+            String line = scan.nextLine();
+            if("seed".equals(line)) {
+                seedDatabase();
+            } else if (line.startsWith("question")) {
+                String questionSplit[] = line.split(";;");
+                Question question = new Question();
+                question.setQuestionText(questionSplit[1]);
+
+                List<Answer> answers = new ArrayList<>();
+                Answer correct = new Answer();
+                correct.setAnswerText(questionSplit[2]);
+                answers.add(correct);
+
+                Answer possible1 = new Answer();
+                possible1.setAnswerText(questionSplit[3]);
+                answers.add(possible1);
+
+                Answer possible2 = new Answer();
+                possible2.setAnswerText(questionSplit[4]);
+                answers.add(possible2);
+
+                Answer possible3 = new Answer();
+                possible3.setAnswerText(questionSplit[5]);
+                answers.add(possible3);
+
+                question.setCorrectAnswer(correct);
+                question.setPossibleAnswers(answers);
+
+                put(correct);
+                put(possible1);
+                put(possible2);
+                put(possible3);
+                put(question);
+            }
+        }
     }
 
     private void seedDatabase() {
