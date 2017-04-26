@@ -52,6 +52,7 @@ public class HibernateUserRepository implements UserRepository{
 
 @Entity
 @Indexed
+@Cacheable(false)
 class HibernateUser extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

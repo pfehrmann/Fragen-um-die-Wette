@@ -141,6 +141,7 @@ public class HibernateMatchRepository implements MatchRepository {
 
 @Entity
 @Indexed
+@Cacheable(false)
 class HibernateMatch extends Match{
 
     @Id

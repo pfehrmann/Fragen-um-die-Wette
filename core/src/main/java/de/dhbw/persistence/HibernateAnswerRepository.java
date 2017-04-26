@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.search.annotations.Indexed;
 
@@ -56,6 +53,7 @@ public class HibernateAnswerRepository implements AnswerRepository {
 
 @Entity
 @Indexed
+@Cacheable(false)
 class HibernateAnswer implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

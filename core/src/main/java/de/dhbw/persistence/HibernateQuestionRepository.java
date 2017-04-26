@@ -5,10 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.search.annotations.Indexed;
 
@@ -59,6 +56,7 @@ public class HibernateQuestionRepository implements QuestionRepository {
 
 @Entity
 @Indexed
+@Cacheable(false)
 class HibernateQuestion extends Question{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
