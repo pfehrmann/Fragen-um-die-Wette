@@ -24,7 +24,7 @@ public class JacksonMatch {
     private long userB;
 
     @JsonProperty
-    private List<Long> questionsIds;
+    private List<Long> questionIds;
 
     @JsonProperty
     private int currentQuestionUserA;
@@ -57,9 +57,9 @@ public class JacksonMatch {
         jacksonMatch.userA = match.getUserA().getId();
         jacksonMatch.userB = match.getUserB().getId();
 
-        jacksonMatch.questionsIds = new ArrayList<>();
+        jacksonMatch.questionIds = new ArrayList<>();
         for(Question question : match.getQuestions()) {
-            jacksonMatch.questionsIds.add(question.getId());
+            jacksonMatch.questionIds.add(question.getId());
         }
 
         jacksonMatch.currentQuestionUserA = match.getCurrentQuestionUserA();
