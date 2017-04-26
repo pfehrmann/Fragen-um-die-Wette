@@ -41,24 +41,27 @@ public class App
         List<Answer> answers = new ArrayList<>();
 
         Answer answer = new Answer();
-        answer.setAnswerText("2017");
-        answers.add(answer);
-
-        answer = new Answer();
         answer.setAnswerText("2016");
         answers.add(answer);
+        put(answer);
 
         answer = new Answer();
         answer.setAnswerText("2015");
         answers.add(answer);
+        put(answer);
 
         answer = new Answer();
         answer.setAnswerText("2018");
         answers.add(answer);
+        put(answer);
+
+        answer = new Answer();
+        answer.setAnswerText("2017");
+        answers.add(answer);
+        put(answer);
 
         question.setPossibleAnswers(answers);
         question.setCorrectAnswer(answer);
-        put(answer);
         put(question);
 
         User userA = new User("Philipp");
